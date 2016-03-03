@@ -28,16 +28,22 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 TextView output = (TextView) findViewById(R.id.output);
+                TextView output2 = (TextView) findViewById(R.id.output2);
                 EditText input = (EditText) findViewById(R.id.input);
 
                 String[] words = input.getText().toString().split(" ");
                 String intermediate="";
+                String[] words2 = input.getText().toString().split(" ");
+                String intermediate2="";
                 for(int i=0; i<words.length; i++) {
                     words[i] = encoder.doubleMetaphone(words[i]);
                     intermediate += words[i] + " ";
+                    words2[i] = encoder.doubleMetaphone(words2[i],true);
+                    intermediate2 += words2[i] + " ";
                 }
 
                 output.setText(intermediate.trim());
+                output2.setText(intermediate2.trim());
             }
         });
     }
