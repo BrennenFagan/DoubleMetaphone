@@ -275,9 +275,25 @@ public class DoubleMetaphone implements StringEncoder {
      */
     private int handleAEIOUY(String value, DoubleMetaphoneResult result, int
             index) {
-        if (index == 0) {
-            result.append('A');
+        //Modified to handle long vs short letters.
+        //If there is a letter two or three letters down that makes this letter a long sound double return
+        if(contains(value, index + 2, 1, "E", "Y", "ING") || contains(value, index + 3, 1, "E", "Y", "ING")) {
+            result.append(charAt(value, index));
+            result.append(charAt(value, index));
         }
+        else if(charAt(value, index) == 'E' && (charAt(value, index+1)=='Y'|| charAt(value, index+1)=='S' || index == value.length()-1))
+            //If we have an E or EY at the end, do not append a value.
+            ;
+        else if(contains(value, index, 2, "OO")){
+            //replace the repeat "ooooooo".
+            result.append("OO");
+            index = index + 2;
+            while(charAt(value, index)=='O'){
+                index++;
+            }
+        }
+        else
+            result.append(charAt(value,index));
         return index + 1;
     }
 
@@ -652,7 +668,12 @@ public class DoubleMetaphone implements StringEncoder {
             index = contains(value, index + 1, 1, "Z") ? index + 2 : index + 1;
         } else if (contains(value, index, 2, "SC")) {
             index = handleSC(value, result, index);
-        } else {
+        }
+        //Added: Case to hold double SS as 'Z'. This allows us to censor Z.
+        else if (contains(value, index, 2, "SS")){
+            result.append('Z');
+            index = index + 2;
+        }else {
             if (index == value.length() - 1 && contains(value, index - 2,
                     2, "AI", "OI")){
                 //-- french e.g. "resnais", "artois" --//
@@ -660,7 +681,7 @@ public class DoubleMetaphone implements StringEncoder {
             } else {
                 result.append('S');
             }
-            index = contains(value, index + 1, 1, "S", "Z") ? index + 2 : index + 1;
+            index = contains(value, index + 1, 1, "Z") ? index + 2 : index + 1;
         }
         return index;
     }
@@ -917,7 +938,7 @@ public class DoubleMetaphone implements StringEncoder {
         }
         return result;
     }
-
+/* STUFF WE ARE INTERESTED IN ENDS HERE/////////////////////////////////////////////////////////////*/
     /**
      * Cleans the input
      */
