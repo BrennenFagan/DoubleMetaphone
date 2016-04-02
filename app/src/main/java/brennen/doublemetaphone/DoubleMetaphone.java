@@ -287,10 +287,13 @@ public class DoubleMetaphone implements StringEncoder {
         else if(contains(value, index, 2, "OO")){
             //replace the repeat "ooooooo".
             result.append("OO");
+            //Skip any repeated o's
             index = index + 2;
             while(charAt(value, index)=='O'){
                 index++;
             }
+            //On testing, the return here is failing. As such we decrement and use the outer return.
+            index = index -1;
         }
         else
             result.append(charAt(value,index));
