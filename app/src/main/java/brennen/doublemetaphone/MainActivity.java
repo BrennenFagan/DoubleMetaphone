@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    static private SwearCensor swearCensor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
                 TextView output = (TextView) findViewById(R.id.output);
                 TextView output2 = (TextView) findViewById(R.id.output2);
+                TextView output3 = (TextView) findViewById(R.id.output3);
                 TextView wouldBeBlocked = (TextView) findViewById(R.id.wouldBeBlocked);
                 EditText input = (EditText) findViewById(R.id.input);
 
@@ -34,20 +34,25 @@ public class MainActivity extends AppCompatActivity {
                 String intermediate="";
                 String[] words2 = input.getText().toString().split(" ");
                 String intermediate2="";
+                String intermediate3="";
                 for(int i=0; i<words.length; i++) {
-                    words[i] = swearCensor.encode(words[i]);
+                    intermediate3 += SwearCensor.censorString(words[i]) + " ";
+                    words[i] = SwearCensor.encode(words[i]);
                     intermediate += words[i] + " ";
-                    words2[i] = swearCensor.encode(words2[i], true);
+                    words2[i] = SwearCensor.encode(words2[i], true);
                     intermediate2 += words2[i] + " ";
                 }
 
                 output.setText(intermediate.trim());
                 output2.setText(intermediate2.trim());
+                output3.setText(intermediate3.trim());
 
-                if(swearCensor.blocked(intermediate, intermediate2))
+                if(SwearCensor.encodingIsBlocked(intermediate, intermediate2))
                     wouldBeBlocked.setText("Very Bad!");
                 else
                     wouldBeBlocked.setText("All Good!");
+
+
             }
         });
     }

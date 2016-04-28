@@ -65,4 +65,16 @@
         android:layout_alignParentStart="true"
         android:layout_toLeftOf="@+id/fab"
         android:layout_toStartOf="@+id/fab" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="What A Wonderful Day~!"
+        android:id="@+id/output3"
+        android:layout_marginBottom="73dp"
+        android:layout_above="@+id/wouldBeBlocked"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>
