@@ -175,4 +175,3 @@ public class SwearCensor {
  * asshole is blacklisted.
  */
 }
-

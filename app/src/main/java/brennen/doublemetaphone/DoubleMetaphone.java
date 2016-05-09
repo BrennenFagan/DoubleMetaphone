@@ -38,8 +38,11 @@ package brennen.doublemetaphone;
  *     Please visit <a href="http://android-developers.blogspot.com/2011/09/androids-http-clients.html">this webpage</a>
  *     for further details.
  */
+
 @Deprecated
 public class DoubleMetaphone implements StringEncoder {
+
+    public static final char wildCard = '.';
 
     /**
      * "Vowels" to test for
@@ -101,96 +104,118 @@ public class DoubleMetaphone implements StringEncoder {
         DoubleMetaphoneResult result = new DoubleMetaphoneResult(this.getMaxCodeLen());
 
         while (!result.isComplete() && index <= value.length() - 1) {
-            switch (value.charAt(index)) {
-                case 'A':
-                case 'E':
-                case 'I':
-                case 'O':
-                case 'U':
-                case 'Y':
-                    index = handleAEIOUY(value, result, index);
-                    break;
-                case 'B':
-                    result.append('P');
-                    index = charAt(value, index + 1) == 'B' ? index + 2 : index + 1;
-                    break;
-                case '\u00C7':
-                    // A C with a Cedilla
-                    result.append('S');
-                    index++;
-                    break;
-                case 'C':
-                    index = handleC(value, result, index);
-                    break;
-                case 'D':
-                    index = handleD(value, result, index);
-                    break;
-                case 'F':
-                    result.append('F');
-                    index = charAt(value, index + 1) == 'F' ? index + 2 : index + 1;
-                    break;
-                case 'G':
-                    index = handleG(value, result, index, slavoGermanic);
-                    break;
-                case 'H':
-                    index = handleH(value, result, index);
-                    break;
-                case 'J':
-                    index = handleJ(value, result, index, slavoGermanic);
-                    break;
-                case 'K':
-                    result.append('K');
-                    index = charAt(value, index + 1) == 'K' ? index + 2 : index + 1;
-                    break;
-                case 'L':
-                    index = handleL(value, result, index);
-                    break;
-                case 'M':
-                    result.append('M');
-                    index = conditionM0(value, index) ? index + 2 : index + 1;
-                    break;
-                case 'N':
-                    result.append('N');
-                    index = charAt(value, index + 1) == 'N' ? index + 2 : index + 1;
-                    break;
-                case '\u00D1':
-                    // N with a tilde (spanish ene)
-                    result.append('N');
-                    index++;
-                    break;
-                case 'P':
-                    index = handleP(value, result, index);
-                    break;
-                case 'Q':
-                    result.append('K');
-                    index = charAt(value, index + 1) == 'Q' ? index + 2 : index + 1;
-                    break;
-                case 'R':
-                    index = handleR(value, result, index, slavoGermanic);
-                    break;
-                case 'S':
-                    index = handleS(value, result, index, slavoGermanic);
-                    break;
-                case 'T':
-                    index = handleT(value, result, index);
-                    break;
-                case 'V':
-                    result.append('F');
-                    index = charAt(value, index + 1) == 'V' ? index + 2 : index + 1;
-                    break;
-                case 'W':
-                    index = handleW(value, result, index);
-                    break;
-                case 'X':
-                    index = handleX(value, result, index);
-                    break;
-                case 'Z':
-                    index = handleZ(value, result, index, slavoGermanic);
-                    break;
-                default:
-                    index++;
-                    break;
+            char input = value.charAt(index);
+            if(     input == 'A'|| input == '\u03B1'    || input == '@'){
+                //alpha,
+                if(input != 'A')
+                    value = value.replace(input,'A');
+                index = handleAEIOUY(value, result, index);
             }
+            else if(input == 'E'|| input == '\u03B5'    || input == '3' ){
+                //epsilon
+                if(input != 'E')
+                    value = value.replace(input,'E');
+                index = handleAEIOUY(value, result, index);
+            }
+            else if(input == 'I'|| input == '!'         || input == '1' ){
+                if(input != 'I')
+                    value = value.replace(input,'I');
+                index = handleAEIOUY(value, result, index);
+            }
+            else if(input == 'O'|| input == '\u03C3'    || input == '0' ){
+                //sigma,
+                if(input != 'O')
+                    value = value.replace(input,'O');
+                index = handleAEIOUY(value, result, index);
+            }
+            else if(input == 'U'|| input == '\u00B5'     ){
+                // mu,
+                if(input != 'U')
+                    value = value.replace(input,'U');
+                index = handleAEIOUY(value, result, index);
+            }
+            else if(input == 'Y'){
+                index = handleAEIOUY(value, result, index);
+            }
+
+            else if(input == 'B'){
+                result.append('P');
+                index = charAt(value, index + 1) == 'B' ? index + 2 : index + 1;
+            }
+            else if(input == '\u00C7'){
+                // A C with a Cedilla
+                result.append('S');
+                index++;
+            } else if(input == 'C'){
+                index = handleC(value, result, index);
+            } else if (input == 'D') {
+                index = handleD(value, result, index);
+            }
+            else if(input == 'F'){
+                result.append('F');
+                index = charAt(value, index + 1) == 'F' ? index + 2 : index + 1;
+            } else if(input == 'G') {
+                index = handleG(value, result, index, slavoGermanic);
+            } else if (input == 'H') {
+                index = handleH(value, result, index);
+            } else if (input == 'J') {
+                index = handleJ(value, result, index, slavoGermanic);
+            }
+            else if(input == 'K'){
+                result.append('K');
+                index = charAt(value, index + 1) == 'K' ? index + 2 : index + 1;
+            }
+            else if(input == 'L' || input == '7') {
+                if(input != 'L')
+                    value = value.replace(input,'L');
+                index = handleL(value, result, index);
+            }
+            else if(input == 'M') {
+                result.append('M');
+                index = conditionM0(value, index) ? index + 2 : index + 1;
+            }
+            else if(input == 'N') {
+                result.append('N');
+                index = charAt(value, index + 1) == 'N' ? index + 2 : index + 1;
+            }
+            else if(input == '\u00D1') {
+                // N with a tilde (spanish ene)
+                result.append('N');
+                index++;
+            }
+            else if(input == 'P') {
+                index = handleP(value, result, index);
+            }
+            else if(input == 'Q') {
+                result.append('K');
+                index = charAt(value, index + 1) == 'Q' ? index + 2 : index + 1;
+            } else if(input == 'R') {
+                index = handleR(value, result, index, slavoGermanic);
+            }
+            else if(input == 'S' || input == '$' || input == '5') {
+                if(input != 'S')
+                    value = value.replace(input, 'S');
+                index = handleS(value, result, index, slavoGermanic);
+            }
+            else if(input == 'T' || input == '+') {
+                if(input != 'T')
+                    value = value.replace(input, 'T');
+                index = handleT(value, result, index);
+            }
+            else if(input == 'V') {
+                result.append('F');
+                index = charAt(value, index + 1) == 'V' ? index + 2 : index + 1;
+            } else if (input == 'W') {
+                index = handleW(value, result, index);
+            } else if (input == 'X') {
+                index = handleX(value, result, index);
+            }
+            else if (input == 'Z') {
+                index = handleZ(value, result, index, slavoGermanic);
+            }
+            else
+                result.append(wildCard);
+            index++;
         }
 
         return alternate ? result.getAlternate() : result.getPrimary();
