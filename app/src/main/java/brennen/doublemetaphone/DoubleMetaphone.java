@@ -72,8 +72,8 @@ public class DoubleMetaphone implements StringEncoder {
     /**
      * Maximum length of an encoding, default is 4
      */
-    //Brennen: Changed from 4 -> 10
-    protected int maxCodeLen = 10;
+    //Brennen: Changed from 4 -> 140, size of a twitter message
+    protected int maxCodeLen = 140;
 
     /**
      * Creates an instance of this DoubleMetaphone encoder
@@ -1070,7 +1070,28 @@ public class DoubleMetaphone implements StringEncoder {
         if (input.length() == 0) {
             return null;
         }
-        return input.toUpperCase();
+        //Cast everything to uppercase
+        input = input.toUpperCase();
+        //Cast unrecognizable letters to recognizable letters
+        input = interpretLetters(input);
+        //Remove spaces for cases like W o o o o == Woo
+        input = input.replace(" ", "");
+        return input;
+    }
+
+    //Since this comes after toUpperCase, we can assume uppercase.
+    private String interpretLetters(String input) {
+        for(int i = 0; i < input.length(); i++){
+            if(charAt(input, i) == letterChar1) {
+                char nextChar = charAt(input, i + 1);
+                if((int)nextChar>=(int)'\uDDE6' && (int)nextChar<(int)'\uDDFF') {
+                    nextChar = (char) ((int) nextChar - (int) '\uDDE6');//Subtract unicode emoji A
+                    nextChar = (char) ((int) nextChar + 'A');
+                    input = replaceWith(input, i, nextChar);
+                }
+            }
+        }
+        return input;
     }
 
     /**

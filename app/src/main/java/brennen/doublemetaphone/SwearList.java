@@ -41,7 +41,7 @@ public class SwearList {
                 "tit",
                 "titty",
                 "titties",
-                Character.toString(letterChar1)+Character.toString(eggplant), //Eggplant is apparently some dick reference?
+                Character.toString(letterChar1)+ Character.toString(eggplant), //Eggplant is apparently some dick reference?
                 Character.toString(emojiChar1) + Character.toString('\uDC49') + //Pointer Finger
                 Character.toString(emojiChar1) + Character.toString('\uDC4C')  //and Okay
                 //"...."//Four wildcards, automatically censoring any four character strings of characters we don't recognize.
