@@ -45,12 +45,16 @@ public class SwearCensor {
                 indexOfSwearLeft++;
                 lastEncoding = encoding;
                 encoding = encode(toCensor.substring(indexOfSwearLeft));
+                if(encoding == null)
+                    return "";
             }
             indexOfSwearLeft--;
             encoding = lastEncoding;
             while(encoding.contains(swearList.get(index))){
                 indexOfSwearRight--;
                 encoding = encode(toCensor.substring(indexOfSwearLeft,indexOfSwearRight));
+                if(encoding == null)
+                    return "";
             }
             indexOfSwearRight++;
 

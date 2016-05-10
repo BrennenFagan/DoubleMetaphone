@@ -43,6 +43,15 @@ package brennen.doublemetaphone;
 public class DoubleMetaphone implements StringEncoder {
 
     public static final char wildCard = '.';
+    public static final char happy = '☺';
+    private static final char emojiChar1 = '\uD83D';
+    private static final String instantFail =   Character.toString(emojiChar1) +
+                                                Character.toString('\uDC49') +
+                                                Character.toString(emojiChar1) +
+                                                Character.toString('\uDC4C');
+    private static final char letterChar1 = '\uD83C';
+    private static final char eggplant = '\uDF46';
+    private static boolean charFlag;
 
     /**
      * "Vowels" to test for
@@ -98,6 +107,7 @@ public class DoubleMetaphone implements StringEncoder {
             return null;
         }
 
+        charFlag=false;
         boolean slavoGermanic = isSlavoGermanic(value);
         int index = isSilentStart(value) ? 1 : 0;
 
@@ -105,40 +115,51 @@ public class DoubleMetaphone implements StringEncoder {
 
         while (!result.isComplete() && index <= value.length() - 1) {
             char input = value.charAt(index);
-            if(     input == 'A'|| input == '\u03B1'    || input == '@'){
+            if(     input == 'A'|| input == '\u03B1'    || input == '@' ||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDE6')){
                 //alpha,
                 if(input != 'A')
-                    value = value.replace(input,'A');
+                    value = replaceWith(value, index, 'A');
                 index = handleAEIOUY(value, result, index);
             }
-            else if(input == 'E'|| input == '\u03B5'    || input == '3' ){
+            else if(input == 'E'|| input == '\u03B5'    || input == '3' ||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDEA')){
                 //epsilon
                 if(input != 'E')
-                    value = value.replace(input,'E');
+                    value = replaceWith(value, index, 'E');
                 index = handleAEIOUY(value, result, index);
             }
-            else if(input == 'I'|| input == '!'         || input == '1' ){
+            else if(input == 'I'|| input == '!'         || input == '1' ||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDEE')){
                 if(input != 'I')
-                    value = value.replace(input,'I');
+                    value = replaceWith(value, index, 'I');
                 index = handleAEIOUY(value, result, index);
             }
-            else if(input == 'O'|| input == '\u03C3'    || input == '0' ){
+            else if(input == 'O'|| input == '\u03C3'    || input == '0'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDF4') ){
                 //sigma,
                 if(input != 'O')
-                    value = value.replace(input,'O');
+                    value = replaceWith(value, index, 'O');
                 index = handleAEIOUY(value, result, index);
             }
-            else if(input == 'U'|| input == '\u00B5'     ){
+            else if(input == 'U'|| input == '\u00B5'     ||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDFA')){
                 // mu,
                 if(input != 'U')
-                    value = value.replace(input,'U');
+                    value = replaceWith(value, index, 'U');
                 index = handleAEIOUY(value, result, index);
             }
-            else if(input == 'Y'){
+            else if(input == 'Y'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDFE')){
+                if(input != 'Y')
+                    value = replaceWith(value, index, 'Y');
                 index = handleAEIOUY(value, result, index);
             }
 
-            else if(input == 'B'){
+            else if(input == 'B'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDE7')){
+                if(input != 'B')
+                    value = replaceWith(value, index, 'B');
                 result.append('P');
                 index = charAt(value, index + 1) == 'B' ? index + 2 : index + 1;
             }
@@ -146,35 +167,63 @@ public class DoubleMetaphone implements StringEncoder {
                 // A C with a Cedilla
                 result.append('S');
                 index++;
-            } else if(input == 'C'){
+            } else if(input == 'C'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDE8')){
+                if(input != 'C')
+                    value = replaceWith(value, index, 'C');
                 index = handleC(value, result, index);
-            } else if (input == 'D') {
+            } else if (input == 'D'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDE9')) {
+                if(input != 'D')
+                    value = replaceWith(value, index, 'D');
                 index = handleD(value, result, index);
             }
-            else if(input == 'F'){
+            else if(input == 'F'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDEB')){
+                if(input != 'F')
+                    value = replaceWith(value, index, 'F');
                 result.append('F');
                 index = charAt(value, index + 1) == 'F' ? index + 2 : index + 1;
-            } else if(input == 'G') {
+            } else if(input == 'G'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDEC')) {
+                if(input != 'G')
+                    value = replaceWith(value, index, 'G');
                 index = handleG(value, result, index, slavoGermanic);
-            } else if (input == 'H') {
+            } else if (input == 'H'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDED')) {
+                if(input != 'H')
+                    value = replaceWith(value, index, 'H');
                 index = handleH(value, result, index);
-            } else if (input == 'J') {
+            } else if (input == 'J'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDEF')) {
+                if(input != 'J')
+                    value = replaceWith(value, index, 'J');
                 index = handleJ(value, result, index, slavoGermanic);
             }
-            else if(input == 'K'){
+            else if(input == 'K'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDF0')){
+                if(input != 'K')
+                    value = replaceWith(value, index, 'K');
                 result.append('K');
                 index = charAt(value, index + 1) == 'K' ? index + 2 : index + 1;
             }
-            else if(input == 'L' || input == '7') {
+            else if(input == 'L' || input == '7'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDF1')) {
                 if(input != 'L')
-                    value = value.replace(input,'L');
+                    value = replaceWith(value, index, 'L');
                 index = handleL(value, result, index);
             }
-            else if(input == 'M') {
+            else if(input == 'M'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDF2')) {
+                if(input != 'M')
+                    value = replaceWith(value, index, 'M');
                 result.append('M');
                 index = conditionM0(value, index) ? index + 2 : index + 1;
             }
-            else if(input == 'N') {
+            else if(input == 'N'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDF3')) {
+                if(input != 'N')
+                    value = replaceWith(value, index, 'N');
                 result.append('N');
                 index = charAt(value, index + 1) == 'N' ? index + 2 : index + 1;
             }
@@ -183,39 +232,89 @@ public class DoubleMetaphone implements StringEncoder {
                 result.append('N');
                 index++;
             }
-            else if(input == 'P') {
+            else if(input == 'P'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDF5')) {
+                if(input != 'P')
+                    value = replaceWith(value, index, 'P');
                 index = handleP(value, result, index);
             }
-            else if(input == 'Q') {
+            else if(input == 'Q'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDF6')) {
+                if(input != 'Q')
+                    value = replaceWith(value, index, 'Q');
                 result.append('K');
                 index = charAt(value, index + 1) == 'Q' ? index + 2 : index + 1;
-            } else if(input == 'R') {
+            } else if(input == 'R'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDF7')) {
+                if(input != 'R')
+                    value = replaceWith(value, index, 'R');
                 index = handleR(value, result, index, slavoGermanic);
             }
-            else if(input == 'S' || input == '$' || input == '5') {
+            else if(input == 'S' || input == '$' || input == '5'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDF8')) {
                 if(input != 'S')
-                    value = value.replace(input, 'S');
+                    value = replaceWith(value, index, 'S');
                 index = handleS(value, result, index, slavoGermanic);
             }
-            else if(input == 'T' || input == '+') {
+            else if(input == 'T' || input == '+'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDF9')) {
                 if(input != 'T')
-                    value = value.replace(input, 'T');
+                    value = replaceWith(value, index, 'T');
                 index = handleT(value, result, index);
             }
-            else if(input == 'V') {
+            else if(input == 'V'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDFB')) {
+                if(input != 'V')
+                    value = replaceWith(value, index, 'V');
                 result.append('F');
                 index = charAt(value, index + 1) == 'V' ? index + 2 : index + 1;
-            } else if (input == 'W') {
+            } else if (input == 'W'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDFC')) {
+                if(input != 'W')
+                    value = replaceWith(value, index, 'W');
                 index = handleW(value, result, index);
-            } else if (input == 'X') {
+            } else if (input == 'X'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDFD')) {
+                if(input != 'X')
+                    value = replaceWith(value, index, 'X');
                 index = handleX(value, result, index);
             }
-            else if (input == 'Z') {
+            else if (input == 'Z'||
+                    (input == letterChar1 && charAt(value,index+1)== '\uDDFF')) {
+                if(input != 'Z')
+                    value = replaceWith(value, index, 'Z');
                 index = handleZ(value, result, index, slavoGermanic);
             }
-            else
-                result.append(wildCard);
-            index++;
+            else if (input == happy){
+                //Do nothing.
+                index++;
+            }
+            else if (input == emojiChar1){
+                //TODO keep an eye on this block. Likely to grow in response to user data.
+                //If pointing finger, then a-ok, fail.
+                if(charAt(value,index+1)==charAt(instantFail,1)) {
+                    if (charAt(value, index + 3) == charAt(instantFail, 3)){
+                        result.append(instantFail);
+                        index = index + 2;
+                    }
+                }
+                index = index + 2;
+                //Else, not a flag as of now.
+            }
+            else if (input == letterChar1){
+                if(charAt(value,index + 1) == eggplant)
+                    result.append(eggplant);
+                index = index + 2;
+            }
+            else{
+                //result.append(wildCard);
+                index++;
+            }
+            if(charFlag) {
+                charFlag = false; //reset the flag.
+                index++; //We move an additional character for double characters
+            }
+            //index++;
         }
 
         return alternate ? result.getAlternate() : result.getPrimary();
@@ -991,6 +1090,23 @@ public class DoubleMetaphone implements StringEncoder {
             return Character.MIN_VALUE;
         }
         return value.charAt(index);
+    }
+
+    private String replaceWith(String value, int index, char replace){
+        if(     charAt(value, index) == letterChar1 ||
+                charAt(value, index) == emojiChar1)
+            charFlag = true;
+
+        if(index == 0){
+            return Character.toString(replace) + value.substring(index+1);
+        }
+        else if(index == value.length()-1){
+            return value.substring(0, index-1) + Character.toString(replace);
+        }
+        else
+            return value.substring(0,index-1) +
+                    Character.toString(replace) +
+                    value.substring(index+1);
     }
 
     /**
