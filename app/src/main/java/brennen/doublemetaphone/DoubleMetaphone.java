@@ -51,7 +51,6 @@ public class DoubleMetaphone implements StringEncoder {
                                                 Character.toString('\uDC4C');
     private static final char letterChar1 = '\uD83C';
     private static final char eggplant = '\uDF46';
-    private static boolean charFlag;
 
     /**
      * "Vowels" to test for
@@ -107,7 +106,6 @@ public class DoubleMetaphone implements StringEncoder {
             return null;
         }
 
-        charFlag=false;
         boolean slavoGermanic = isSlavoGermanic(value);
         int index = isSilentStart(value) ? 1 : 0;
 
@@ -310,11 +308,6 @@ public class DoubleMetaphone implements StringEncoder {
                 //result.append(wildCard);
                 index++;
             }
-            if(charFlag) {
-                charFlag = false; //reset the flag.
-                index++; //We move an additional character for double characters
-            }
-            //index++;
         }
 
         return alternate ? result.getAlternate() : result.getPrimary();
@@ -1092,22 +1085,47 @@ public class DoubleMetaphone implements StringEncoder {
         return value.charAt(index);
     }
 
+    /**
+     * Miniature replacement function with guards and support for emoji.
+     */
     private String replaceWith(String value, int index, char replace){
-        if(     charAt(value, index) == letterChar1 ||
-                charAt(value, index) == emojiChar1)
-            charFlag = true;
+        if(index<0 || index>value.length()) return value;
+
+        int endIndex = index;
+        if(     (charAt(value, index) == letterChar1 ||
+                charAt(value, index) == emojiChar1))
+            endIndex++;
 
         if(index == 0){
-            return Character.toString(replace) + value.substring(index+1);
+            return Character.toString(replace) + value.substring(endIndex+1);
         }
         else if(index == value.length()-1){
-            return value.substring(0, index-1) + Character.toString(replace);
+            return value.substring(0, index) + Character.toString(replace);
         }
-        else
-            return value.substring(0,index-1) +
-                    Character.toString(replace) +
-                    value.substring(index+1);
+        else{
+            return value.substring(0, index) + Character.toString(replace) + value.substring(endIndex + 1);
+        }
     }
+    private String replaceWith(String value, int index, CharSequence replace){
+
+        if(index<0 || index>value.length()) return value;
+
+        int endIndex = index;
+        if(     (charAt(value, index) == letterChar1 ||
+                charAt(value, index) == emojiChar1))
+            endIndex++;
+
+        if(index == 0){
+            return replace + value.substring(endIndex+1);
+        }
+        else if(index == value.length()-1){
+            return value.substring(0, index) + replace;
+        }
+        else{
+            return value.substring(0, index) + replace + value.substring(endIndex + 1);
+        }
+    }
+    private String delete(String value, int index){return replaceWith(value, index, "");}
 
     /**
      * Shortcut method with 1 criteria
