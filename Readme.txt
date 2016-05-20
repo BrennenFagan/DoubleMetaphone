@@ -47,3 +47,5 @@ Features that need work:
 Words to censor.
 Effectiveness of censor and false positives (list in tests).
 
+Places you can help:
+Submit Feedback and Issues to me so I can know what to change or fix (check the Issues section to see if your issue is listed!).
