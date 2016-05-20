@@ -45,5 +45,5 @@ Ability to white-list words.
 
 Features that need work:
 Words to censor.
-Effectiveness of censor and false positives (list in tests).
+Effectiveness of censor and false positives.
 
