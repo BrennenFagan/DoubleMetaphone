@@ -38,7 +38,6 @@ package brennen.doublemetaphone;
  *     Please visit <a href="http://android-developers.blogspot.com/2011/09/androids-http-clients.html">this webpage</a>
  *     for further details.
  */
-
 @Deprecated
 public class DoubleMetaphone implements StringEncoder {
 
@@ -46,9 +45,9 @@ public class DoubleMetaphone implements StringEncoder {
     public static final char happy = '☺';
     private static final char emojiChar1 = '\uD83D';
     private static final String instantFail =   Character.toString(emojiChar1) +
-                                                Character.toString('\uDC49') +
-                                                Character.toString(emojiChar1) +
-                                                Character.toString('\uDC4C');
+            Character.toString('\uDC49') +
+            Character.toString(emojiChar1) +
+            Character.toString('\uDC4C');
     private static final char letterChar1 = '\uD83C';
     private static final char eggplant = '\uDF46';
 
@@ -288,7 +287,7 @@ public class DoubleMetaphone implements StringEncoder {
     }
 
     /**
-     * Encode the value using DoubleMetaphone.  It will only work if 
+     * Encode the value using DoubleMetaphone.  It will only work if
      * <code>obj</code> is a <code>String</code> (like <code>Metaphone</code>).
      *
      * @param obj Object to encode (should be of type String)
