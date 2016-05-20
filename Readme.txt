@@ -28,4 +28,4 @@ Modification after that is under the ownership of myself (and/or whomever of my 
 commit history on Github at:
 https://github.com/BrennenFagan/DoubleMetaphone
 
-We will comment on any changes we make to the code itself, especially should it be in the middle of existing code.
+A large amount of the code has changed in some ways since the original prospect. Feel free to take a look through.
