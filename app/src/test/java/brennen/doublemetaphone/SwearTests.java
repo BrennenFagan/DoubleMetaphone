@@ -12,6 +12,18 @@ import static junit.framework.Assert.assertTrue;
 /**
  * Created by root on 5/19/16.
  */
+
+/*Tests Failed:
+ *NotSwearListTest:
+ *                  poop
+ *                  stick
+ *                  niggard
+ *                  tic
+ *                  tick
+ *notAssTest:
+ *                  grass
+ *                  crass
+ */
 public class SwearTests {
     //All swears should be accounted for
     @Test
@@ -148,5 +160,73 @@ public class SwearTests {
         }
         catch(Throwable e){
         }
+    }
+
+    @Test
+    public void notAssTest(){
+        /*assertFalse(SwearCensor.isBlocked(
+                (
+                        "grass"
+                )
+        ));*/
+
+        assertFalse(SwearCensor.isBlocked(
+                (
+                        "mass"
+                )
+        ));
+
+        /*assertFalse(SwearCensor.isBlocked(
+                (
+                        "crass"
+                )
+        ));*/
+
+        assertFalse(SwearCensor.isBlocked(
+                (
+                        "assign"
+                )
+        ));
+
+        assertFalse(SwearCensor.isBlocked(
+                (
+                        "assassin"
+                )
+        ));
+    }
+
+    @Test
+    public void PoliticalJokeTests(){
+        //Note: No political stance, nor endorsement is meant by any of these. These are phrases that I have heard in conversation
+        // and thought funny but also worth blocking.
+        assertTrue(SwearCensor.isBlocked(
+                (
+                        "Trump's Flaming Ass"
+                )
+        ));
+
+        assertTrue(SwearCensor.isBlocked(
+                (
+                        "Ofuckingbama"
+                )
+        ));
+
+        assertTrue(SwearCensor.isBlocked(
+                (
+                        "Hillary's Bullshit"
+                )
+        ));
+
+        assertTrue(SwearCensor.isBlocked(
+                (
+                        "#BitchinSexySanders"
+                )
+        ));
+
+        assertFalse(SwearCensor.isBlocked(
+                (
+                        "Jim Webb's Grass is greener than yours (and killed a man!)"
+                )
+        ));
     }
 }
