@@ -28,4 +28,17 @@ Modification after that is under the ownership of myself (and/or whomever of my 
 commit history on Github at:
 https://github.com/BrennenFagan/DoubleMetaphone
 
-A large amount of the code has changed in some ways since the original prospect. Feel free to take a look through.
+A large amount of the code has changed in some ways since the original prospect. Feel free to take a look through. The
+procedure for modifying this code is actually test oriented, but was before I learned JUnit. As of May 19th, the test cases
+that I have formally written and those that I remember specifically looking for have been added to the code itself, but
+this app easily allows for people to create their own tests with no knowledge of JUnit. To do so, type in a word that you think should be good, or not, and hit the button. It will then read it by space. The algorithm itself is space sensitive, but
+for mass testing, we have the activity as not.
+
+Features that we've added:
+(Some) Emoji Support,
+(Some) Alternative character support,
+Ability to interpret Swear words.
+Ability to black-list words.
+
+Features that should be added:
+Ability to white-list words.
