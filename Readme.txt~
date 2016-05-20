@@ -42,8 +42,11 @@ Ability to black-list words.
 
 Features that should be added:
 Ability to white-list words.
+<<<<<<< HEAD
 
 Features that need work:
 Words to censor.
-Effectiveness of censor and false positives.
+Effectiveness of censor and false positives (list in tests).
 
+=======
+>>>>>>> 9214662cd8d2c4b25243bd40aeba8ca2e08d1c83
